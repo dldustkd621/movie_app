@@ -1,0 +1,166 @@
+how 'react' work
+
+"react" send a function(component) to html by writing  html code with javascript
+
+it's called JSX
+ 
+
+
+
+in jsx, writing "<fucntion(componnent) />" this is  running fucntion(component)
+
+it must be used whit rendering fucntion. and have one component only.
+
+So, for a using many component, we put others in one component what was wrote to rendering fucntion
+
+
+
+1. sending props
+
+if put in some props when we use component, father component send a argument to childComponent by object form 
+
+like,
+
+fucntion FatherComponent() { 
+  return( 
+          <div>
+	    <ChildComponent name="lee" ddd={ture} color={["red","blue"]}>
+	  </div>
+			
+   );
+}
+
+->
+
+function ChildComponent(props) {
+	return <h1>My name is {props.name}<h1>      ->   in browser-> My name is lee
+}
+
+
+
+
+
+2. distinguish
+
+"react" can't distinguish some list's object
+
+it can working at browser, but there is error in console
+
+so we have to write some id for distinguish each object
+
+also each element must have clear key if you don't, array error occurs   ex) id
+
+like,
+
+const foodILike = [{id : 1, name : "a", color : "red", rating:5},
+                    {id : 2, name : "b", color : "blue", rating:4.9},
+                    {id : 3, name : "c", color : "yellow", rating:3.3}];
+
+function App() {
+  return (
+  <div>
+    {foodILike.map(dish => (
+      <Food key={dish.id} name={dish.name} color={dish.color} rating={dish.rating} />
+  ))}
+  </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+this
+
+- "this" bind object value by finding object from where excute function
+
+ex)  https://blog.kesuskim.com/2016/09/understanding-js-this/
+
+3. Prop-types
+
+if there are some mistakes in code, when client ask somting,
+
+we don't know that what is wrong data
+
+So we use Proptypes for inspecting data
+
+by using Proptypes, we can see the error in console that where is code, what is wrong 
+
+like,
+
+import PropTypes from "prop-types";
+
+Food.prototype = {
+  name: PropTypes.string.isRequired,
+  color : PropTypes.string.isRequired,
+  rating : PropTypes.number.isRequired
+};
+
+
+
+
+4. class component
+
+
+when we use class component, we have to extends component to React component. 
+
+because we can use React component's fucntion and other thing...in component made by us
+
+for example, Since class component is not fucntion, class component have no return value. 
+
+So we have to use rendering fucntion by other thing
+
+this is why extends our class component to React Component
+
+react excute the render fucntion outomatically
+
+like,
+
+class App extends React.Component{  <- we use extended class component from ReactComponent
+  render() {
+    return <h1>Im a app</h1>
+  }
+}
+
+and, class component was used for using "state" (object)
+
+state help us to deal with dinamic data 
+
+
+
+
+
+So why we use state object????
+
+https://ko.reactjs.org/docs/faq-state.html
+
+if react was asked to change data, react find component and rerender it only
+
+by using setState(!!!!!) fucntion for initial state, we can rerender when we want 
+
+like,
+
+class App extends React.Component{
+  state = {
+    count : 0						<- init state
+  };
+  add = () => {
+    this.setState(current => ({count:current.count + 1}));				setState = rerending value
+  };
+  minus = () => {
+    this.setState(current => ({count:current.count - 1}));				current = current value
+  };
+  render() {
+  return (
+  <div>
+    <h1>The Number is {this.state.count}</h1>
+    <button onClick={this.add}>add</button>
+    <button onClick={this.minus}>Minus</button>
+    </div>
+  );}
+}
+
